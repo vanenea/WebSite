@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>canvas2html</title>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/qrcode.min.js"></script>
+	<script type="text/javascript" src="js/html2canvas.min.js"></script>
+	<script type="text/javascript">
+		function cli(){
+			console.log("helloword");
+			//JSAlert.alert("helloword!!!");
+			var qrcode = new QRCode(document.getElementById("qrcode"),{
+				width:100,
+				height:100,
+				colorDark : "#000000",
+				colorLight : "#ffffff",
+				text : "wwww",
+				src : "logo.jpg"
+			});
+		}
+		
+		function savePic(){
+			console.log("savePic()");
+			var imgBlob = "";
+			html2canvas(document.getElementById("c"), {
+				  allowTaint: true, //允许污染
+				  taintTest: true, //在渲染前测试图片(没整明白有啥用)
+				  useCORS: true, //使用跨域(当allowTaint为true时这段代码没什么用,下面解释)
+				  background: "#fff",
+				  onrendered: function (canvas) {
+				    imgBlob = canvas.toDataURL('image/jpeg', 1.0); //将图片转为base64
+				    console.log("imgBlob1:"+imgBlob)
+				    imgBlob = imgBlob.toString().substring(imgBlob.indexOf(",") + 1);//截取base64以便上传
+				    console.log("imgBlob2:"+imgBlob)
+				  }
+			});
+			console.log("imgBlob3:"+imgBlob)
+		}
+	</script>
+</head>
+<body>
+	<h1>canvas2html</h1>
+	<div id="c" onclick="cli()">点击出现二维码</div>
+	<br>
+	<br>
+	<div id="save" onclick="savePic()">保存图片</div>
+	<hr>
+	<div id="qrcode"></div>
+</body>
+</html>
