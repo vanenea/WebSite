@@ -29,6 +29,8 @@
 			var scale = 2;
 			canvas.width = width * scale;
 			canvas.height = height * scale;
+			var ctx = canvas.getContext("2d");
+			ctx.scale(scale,scale);
 			var imgBlob = "";
 			html2canvas(document.getElementById("c"), {
 				  allowTaint: true, //允许污染
