@@ -29,8 +29,17 @@
 			var scale = 2;
 			canvas.width = width * scale;
 			canvas.height = height * scale;
+			var ctx = canvas.getContext("2d");
+			ctx.scale(scale,scale);
+			var opts = {
+					scale : scale,
+					canvas : canvas,
+					width : width,
+					height : height,
+					useCORS : true
+			}
 			var imgBlob = "";
-			html2canvas(document.getElementById("c"), {
+			/* html2canvas(block, {
 				  allowTaint: true, //允许污染
 				  taintTest: true, //在渲染前测试图片(没整明白有啥用)
 				  useCORS: true, //使用跨域(当allowTaint为true时这段代码没什么用,下面解释)
@@ -41,6 +50,20 @@
 				    imgBlob = imgBlob.toString().substring(imgBlob.indexOf(",") + 1);//截取base64以便上传
 				    console.log("imgBlob2:"+imgBlob)
 				  }
+			}); */
+			html2canvas(block, opts).then(function(canvas){
+				var context = canvas.getContext("2d");
+				context.mozImageSmoothingEnable = false;
+				context.webkitImageSmoothingEnable = false;
+				context.msImageSmoothEnable = false;
+				context.imageSmoothingEnable = false;
+				var img = Canvas2Image.convertToImage(canvas,canvas.width,canvas.height);
+				$(img).css({
+					"with" : canvas.width/scale + "px",
+					"height" : canvas.height/scale + "px",
+				});
+				var blob = img.src;
+				console.log("blocb:"+blob);
 			});
 			console.log("imgBlob3:"+imgBlob)
 		}
