@@ -16,12 +16,19 @@
 				colorDark : "#000000",
 				colorLight : "#ffffff",
 				text : "wwww",
-				src : "logo.jpg"
+			//	src : "logo.jpg"
 			});
 		}
 		
 		function savePic(){
 			console.log("savePic()");
+			var block = $("#c");
+			var height = block.offsetHeight;
+			var width = block.offsetWidth;
+			var canvas = document.createElement("canvas");
+			var scale = 2;
+			canvas.width = width * scale;
+			canvas.height = height * scale;
 			var imgBlob = "";
 			html2canvas(document.getElementById("c"), {
 				  allowTaint: true, //允许污染
