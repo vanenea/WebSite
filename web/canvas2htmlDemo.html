@@ -6,6 +6,7 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/qrcode.min.js"></script>
 	<script type="text/javascript" src="js/html2canvas.min.js"></script>
+    <script type="text/javascript" src="js/canvas2image.js"></script>
 	<script type="text/javascript">
 		function cli(){
 			console.log("helloword");
@@ -22,7 +23,7 @@
 		
 		function savePic(){
 			console.log("savePic()");
-			var block = $("#c");
+			var block = document.getElementById("c");
 			var height = block.offsetHeight;
 			var width = block.offsetWidth;
 			var canvas = document.createElement("canvas");
@@ -33,6 +34,7 @@
 			ctx.scale(scale,scale);
 			var opts = {
 					scale : scale,
+                    logging : false,
 					canvas : canvas,
 					width : width,
 					height : height,
@@ -63,9 +65,15 @@
 					"height" : canvas.height/scale + "px",
 				});
 				var blob = img.src;
-				console.log("blocb:"+blob);
+				console.log("blob:"+blob);
+
+				console.log("canvas:"+canvas.toDataURL());
 			});
 			console.log("imgBlob3:"+imgBlob)
+
+            html2canvas(block,{useCORS: true,logging: false}).then(function (canvas) {
+                console.log(canvas.toDataURL())
+            })
 		}
 	</script>
 </head>
