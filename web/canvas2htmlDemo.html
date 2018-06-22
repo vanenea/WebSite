@@ -53,7 +53,7 @@
 				    console.log("imgBlob2:"+imgBlob)
 				  }
 			}); */
-			html2canvas(block, opts).then(function(canvas){
+			/*html2canvas(block, opts).then(function(canvas){
 				var context = canvas.getContext("2d");
 				context.mozImageSmoothingEnable = false;
 				context.webkitImageSmoothingEnable = false;
@@ -69,21 +69,72 @@
 
 				console.log("canvas:"+canvas.toDataURL());
 			});
-			console.log("imgBlob3:"+imgBlob)
+			console.log("imgBlob3:"+imgBlob)*/
 
-            html2canvas(block,{useCORS: true,logging: false}).then(function (canvas) {
-                console.log(canvas.toDataURL())
-            })
-		}
+            // html2canvas(block,{useCORS: true,logging: false}).then(function (canvas) {
+            //     console.log(canvas.toDataURL())
+            // })
+
+
+            screenShot($('#c'),function (canvas,width,height) {
+               /* document.querySelector('#screenShotImg').src = canvas;
+                document.querySelector('#screenShotImg').style.width = width+"px";
+                document.querySelector('#screenShotImg').style.height = height+"px";*/
+
+               $("#screenShotImg").attr("src",canvas);
+                $("#screenShotImg").css("width",width);
+                $("#screenShotImg").css("height",height);
+				console.log(canvas);
+            });
+        }
+
+        /**
+         * 截图功能
+         * targetDom 要克隆的目标dom元素
+         * cb 回调函数
+         */
+        function screenShot(targetDom,cb){
+            var copyDom = targetDom.clone();//克隆dom节点
+            copyDom.css('display','block');
+            $('body').append(copyDom);//把copy的截图对象追加到body后面
+            var width = copyDom.width();//dom宽
+            var height = copyDom.height();//dom高
+            var scale = 2;//放大倍数
+            var canvas = document.createElement('canvas');
+            canvas.width = width*scale;//canvas宽度
+            canvas.height = height*scale;//canvas高度
+            var content = canvas.getContext("2d");
+            content.scale(scale,scale);
+            var rect = copyDom.get(0).getBoundingClientRect();//获取元素相对于视察的偏移量
+            content.translate(-rect.left,-rect.top);//设置context位置，值为相对于视窗的偏移量负值，让图片复位
+            console.log("<<<<<<<<")
+			html2canvas(copyDom[0], {
+                allowTaint:true,
+                tainTest:true,
+                scale:scale,
+                canvas:canvas,
+                width:width,
+                heigth:height,
+
+
+            }).then(function (canvas) {
+                console.log(">>>>>>>>>>>>")
+                if(cb){
+                    copyDom.css('display','none');
+                    cb(canvas.toDataURL("image/png"),width,height);
+                }
+			});
+        }
 	</script>
 </head>
-<body>
+<body id="c">
 	<h1>canvas2html</h1>
-	<div id="c" onclick="cli()">点击出现二维码</div>
+	<div onclick="cli()">点击出现二维码</div>
 	<br>
 	<br>
 	<div id="save" onclick="savePic()">保存图片</div>
 	<hr>
 	<div id="qrcode"></div>
+	<img id="screenShotImg"/>
 </body>
 </html>
