@@ -7,11 +7,13 @@
 	<script type="text/javascript" src="js/qrcode.min.js"></script>
 	<script type="text/javascript" src="js/html2canvas.min.js"></script>
     <script type="text/javascript" src="js/canvas2image.js"></script>
+	<script type="text/javascript" src="js/watermark.js"></script>
 	<script type="text/javascript">
 		function cli(){
 			console.log("helloword");
 			//JSAlert.alert("helloword!!!");
-			var qrcode = new QRCode(document.getElementById("qrcode"),{
+            var qrcodeDo = document.getElementById("qrcode");
+			var qrcode = new QRCode(qrcodeDo,{
 				width:100,
 				height:100,
 				colorDark : "#000000",
@@ -19,6 +21,23 @@
 				text : "wwww",
 			//	src : "logo.jpg"
 			});
+            document.querySelector("img").className="screenShotImg";
+
+            var load=false;
+            console.log("1111111");
+                console.log("2222222222");
+                if(!load){
+                    wmark.init({
+						width:5,
+						height:5,
+                        "position":"center",
+                        "opacity":100,
+                        "className":"screenShotImg",
+                       "path": "./image/porsche.jpg"
+					});
+				load=true;
+                }
+
 		}
 		
 		function savePic(){
@@ -84,9 +103,10 @@
                $("#screenShotImg").attr("src",canvas);
                 $("#screenShotImg").css("width",width);
                 $("#screenShotImg").css("height",height);
-				console.log(canvas);
+				console.log("canvas:"+canvas);
             });
         }
+
 
         /**
          * 截图功能
@@ -134,7 +154,9 @@
 	<br>
 	<div id="save" onclick="savePic()">保存图片</div>
 	<hr>
-	<div id="qrcode"></div>
-	<img id="screenShotImg"/>
+	<div id="qrcode" class="screenShotImg"></div>
+	<!--<img id="screenShotImg" class="screenShotImg"/>-->
+	<br>
+	<img src="image/porsche.jpg">
 </body>
 </html>
