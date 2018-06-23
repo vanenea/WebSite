@@ -14,8 +14,8 @@
 			//JSAlert.alert("helloword!!!");
             var qrcodeDo = document.getElementById("qrcode");
 			var qrcode = new QRCode(qrcodeDo,{
-				width:100,
-				height:100,
+				width:250,
+				height:250,
 				colorDark : "#000000",
 				colorLight : "#ffffff",
 				text : "wwww",
@@ -28,12 +28,10 @@
                 console.log("2222222222");
                 if(!load){
                     wmark.init({
-						width:5,
-						height:5,
                         "position":"center",
                         "opacity":100,
                         "className":"screenShotImg",
-                       "path": "./image/porsche.jpg"
+                       "path": "./image/porsche.png"
 					});
 				load=true;
                 }
@@ -157,6 +155,6 @@
 	<div id="qrcode" class="screenShotImg"></div>
 	<!--<img id="screenShotImg" class="screenShotImg"/>-->
 	<br>
-	<img src="image/porsche.jpg">
+    <!--<img src="image/porsche.jpg">-->
 </body>
 </html>
