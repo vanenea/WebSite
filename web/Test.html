@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Test Demo</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 <body>
     <div id="test" onclick="f();">Hello world</div>
+    
+    <div id="move">
+    	<img alt="" src="./logo.jpg">
+    </div>
+    
+    <script type="text/javascript">
+    	$(function(){
+    		var img = $("#move").find("img").attr("src")
+    		console.log(img)
+    		if(img==null){
+    			console.log("null")
+    		}else{
+    			console.log("notNull")
+    		}
+    	})
+    </script>
     <script type="text/javascript">
         function f() {
             console.log(test());

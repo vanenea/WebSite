@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>递归解析无限层级JSON的所有key和value</title>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <ul id="menu"></ul>
+        </div>
+        <script>
+            var menulist = [{
+                "menulist": [
+                    { "MID": "M001", "MName": "首页", "Url": "#", "menulist": "" },
+                    { "MID": "M002", "MName": "车辆买卖", "Url": "#", "menulist":
+                        [
+                             { "MID": "M003", "MName": "新车", "Url": "#", "menulist":
+                                [
+                                    { "MID": "M006", "MName": "奥迪", "Url": "#", "menulist": "" },
+                                    { "MID": "M007", "MName": "别克", "Url": "#", "menulist": "" }
+                                ]
+                             },
+                             { "MID": "M004", "MName": "二手车", "Url": "#", "menulist": "" },
+                             { "MID": "M005", "MName": "改装车", "Url": "#", "menulist": "" }
+                        ]
+                    },
+                    { "MID": "M006", "MName": "宠物", "Url": "#", "menulist": "" }
+              ]
+            }];
+
+            $(function() {
+                parseJson(menulist);
+            });
+
+            function parseJson(jsonObj) {
+                if( typeof(jsonObj) == "undefined" ){
+                    alert('JSON对象不能为空！');
+                }
+                //遍历第一层数据
+                for (var topKey in jsonObj) {
+                    //如果对象类型为object类型且数组长度大于0，递归继续解析
+                    if (jsonObj[topKey].length > 0 && typeof(jsonObj[topKey]) == "object") {
+                        parseJson(jsonObj[topKey]);
+                    } else {
+                            //如果对象类型为object类型，依次循环取出所有元素
+                            if (typeof(jsonObj[topKey]) == "object") {
+                                for(var childKey in jsonObj[topKey]) {
+                                    //如果对象类型为object类型，递归继续解析
+                                    if (typeof(jsonObj[topKey][childKey]) == "object") {
+                                    parseJson(jsonObj[topKey][childKey]);
+                                } else {
+                                        //如果对象类型为object类型，直接取元素名称和值
+                                        $("#menu").append("<li>" + childKey + ":" + jsonObj[topKey][childKey] + "</li>");
+                                }
+                                }
+                            } else{
+                                    //如果对象类型为object类型，直接取元素名称和值
+                                    $("#menu").append("<li>" + childKey + ":" + jsonObj[topKey][childKey] + "</li>");
+                            }
+                    }
+               }
+            }
+        </script>
+    </body>
+</html>

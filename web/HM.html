@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Created QRCode</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/hammer.min.js"></script>
+		<style type="text/css">
+			#img{
+				width : 200px;
+				height : 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<img id="img" alt="" src="logo.jpg">
+	</body>
+	<script type="text/javascript">
+		//创建一个新的hammer对象并且在初始化时指定要处理的dom元素
+		var img = document.getElementById("img");
+         var hammertime = new Hammer(img);
+         //为该dom元素指定触屏移动事件
+        hammertime.on("pan", function (ev) {
+            //控制台输出
+            console.log(ev);
+        });
+	
+		hammertime.on("pan pinchmove pinchstart pinchin pinchout",e => {
+	        if(e.type == "pinchstart"){
+	            scaleIndex = transform.scale || 1;
+	        }
+	        if(e.type == "pan"){
+	       	 	console.log("pan")
+	        }
+	        var sce = e.scale;
+	        console.log(e.scale)
+	       // img.transform.scale = 1 * sce;
+	        img.width = 1 * sce;
+	        img.style.transform = "scale(" + (scaleIndex * e.scale)+ ")";
+	    });
+	</script>
+</html>
